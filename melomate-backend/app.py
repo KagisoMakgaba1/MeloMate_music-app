@@ -39,7 +39,7 @@ def recommend(song):
     distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
     recommended_music_names = []
     recommended_music_posters = []
-    for i in distances[1:6]:
+    for i in distances[1:21]:
         artist = music.iloc[i[0]].artist
         recommended_music_posters.append(get_song_album_cover_url(music.iloc[i[0]].song, artist))
         recommended_music_names.append(music.iloc[i[0]].song)
