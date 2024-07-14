@@ -1,18 +1,20 @@
 import React from "react";
-import "../App.css";
+import "./MyHome.css";
 
 const MyHome = () => {
   return (
-    <div className="container">
+    <div className="con">
+     <h2>
+        EXPLORE
+      </h2> 
       <h1>
-        MeloMate
+        YOUR
       </h1>
-      <h2>
-        Your Musical Soul Companion
-      </h2>
-      <p>
-        Music recommendation system
-      </p>
+      <h3>
+        MUSIC
+      </h3>
+      <p>EXPERIENCE YOUR MUSIC</p>
+      <p>LIKE NEVER BEFORE</p>
       
       <button type="button" className="btn">
         Deployed App
