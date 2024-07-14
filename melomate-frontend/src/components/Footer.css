@@ -1,0 +1,35 @@
+footer {
+  margin: 60px 0;
+}
+
+footer .contact-me {
+  background: #9b9da2;
+  opacity: 0.8;
+  padding: 30px 120px;
+  border-radius: 10px;
+}
+
+footer .email-link {
+  text-decoration: none;
+  color: #d5cece;
+  font-size: 24px;
+}
+
+footer .email-link:hover {
+  font-size: 28px;
+}
+
+footer .socials a {
+  margin: 0 20px;
+  color: #d5cece;
+  background: #111827;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: all 100ms ease-in-out;
+}
+
+footer .socials a:hover {
+  color: #030712;
+  background: #d5cece;
+}

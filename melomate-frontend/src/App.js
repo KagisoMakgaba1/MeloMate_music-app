@@ -3,6 +3,7 @@ import React from "react";
 //import Login from "./components/Login";
 //import Register from "./components/Register";
 import LandingPage from "./components/LandingPage";
+import Footer from "./components/Footer";
 
 import "./App.css";
 
@@ -11,7 +12,9 @@ const App = () => {
     <div>
       <LandingPage />
 
-      <footer>Contact</footer>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

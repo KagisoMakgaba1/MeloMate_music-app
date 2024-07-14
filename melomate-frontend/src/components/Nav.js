@@ -28,7 +28,7 @@ const Nav = () => {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/about.html" title="About Kagiso">
+                  <a class="nav-link" href="/About" title="About Melomate">
                     About
                   </a>
                 </li>

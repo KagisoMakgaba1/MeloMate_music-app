@@ -3,7 +3,9 @@ import "./MyHome.css";
 
 const MyHome = () => {
   return (
-    <div className="con">
+    <div className="container">
+      <div className="row align-items-start">
+        <div className="col m-5">
      <h2>
         EXPLORE
       </h2> 
@@ -16,9 +18,15 @@ const MyHome = () => {
       <p>EXPERIENCE YOUR MUSIC</p>
       <p>LIKE NEVER BEFORE</p>
       
+      
       <button type="button" className="btn">
         Deployed App
       </button>
+      </div>
+      <div className="col p-5">
+        <h1>hey</h1>
+      </div>
+      </div>
     </div>
   );
 };
