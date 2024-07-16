@@ -1,22 +1,32 @@
 import React from "react";
-import "../App.css";
+import "./MyHome.css";
 
 const MyHome = () => {
   return (
     <div className="container">
+      <div className="row align-items-start">
+        <div className="col m-5">
+     <h2>
+        EXPLORE
+      </h2> 
       <h1>
-        MeloMate
+        YOUR
       </h1>
-      <h2>
-        Your Musical Soul Companion
-      </h2>
-      <p>
-        Music recommendation system
-      </p>
+      <h3>
+        MUSIC
+      </h3>
+      <p>EXPERIENCE YOUR MUSIC</p>
+      <p>LIKE NEVER BEFORE</p>
+      
       
       <button type="button" className="btn">
         Deployed App
       </button>
+      </div>
+      <div className="col p-5">
+        <h1>hey</h1>
+      </div>
+      </div>
     </div>
   );
 };

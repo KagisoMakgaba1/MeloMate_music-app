@@ -1,0 +1,46 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0, 0.8);
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+a {
+    text-decoration: none;
+}
+
+.logo {
+    font-size: 28px;
+    color: white;
+    font-weight: 700;
+}
+
+.nav a {
+position: relative;
+font-size: 18px;
+color: white;
+font-weight: 500;
+margin: 0 30px;
+}
+
+.nav a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: .2s;
+}
+
+.nav a:hover::before {
+    width: 100%;
+
+}
