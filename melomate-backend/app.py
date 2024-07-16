@@ -1,3 +1,4 @@
+import os
 import pickle
 import pandas as pd
 from flask import Flask, request, jsonify
@@ -5,9 +6,16 @@ from flask_cors import CORS
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from sklearn.metrics.pairwise import cosine_similarity
+import bcrypt
+import sqlite3
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 app = Flask(__name__)
 CORS(app)
+
+# JWT Configuration
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'default_secret_key')
+jwt = JWTManager(app)
 
 # Spotify credentials
 CLIENT_ID = "8fdc230948e14e559918b13148c11fb0"
@@ -20,6 +28,24 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 # Load data
 music = pickle.load(open('df.pkl', 'rb'))
 similarity = pickle.load(open('similarity.pkl', 'rb'))
+
+# Initialize SQLite Database
+def init_sqlite_db():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            username TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_sqlite_db()
 
 # Function to get song album cover URL
 def get_song_album_cover_url(song_name, artist_name):
@@ -46,7 +72,9 @@ def recommend(song):
 
     return recommended_music_names, recommended_music_posters
 
+
 @app.route('/recommend', methods=['POST'])
+@jwt_required()
 def get_recommendations():
     data = request.json
     song = data['song']
@@ -54,10 +82,52 @@ def get_recommendations():
     recommendations = [{'name': name, 'album_cover_url': poster} for name, poster in zip(recommended_music_names, recommended_music_posters)]
     return jsonify(recommendations)
 
+
 @app.route('/songs', methods=['GET'])
 def get_songs():
     songs = music['song'].tolist()
     return jsonify(songs)
+
+def register_user():
+    data = request.json
+    name = data['name']
+    username = data['username']
+    email = data['email']
+    password = data['password']
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute('INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)',
+                       (name, username, email, hashed_password))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        return jsonify({'message': 'User already exists'}), 409
+    conn.close()
+
+    return jsonify({'message': 'User registered successfully'}), 201
+
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    data = request.json
+    username = data['username']
+    password = data['password']
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if user and bcrypt.checkpw(password.encode('utf-8'), user[4]):
+        access_token = create_access_token(identity={'username': username})
+        return jsonify({'access_token': access_token}), 200
+    else:
+        return jsonify({'message': 'Invalid credentials'}), 401
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

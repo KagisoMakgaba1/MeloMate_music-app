@@ -1,0 +1,7 @@
+Flask
+Flask-Cors
+spotipy
+scikit-learn
+bcrypt
+flask-jwt-extended
+pandas

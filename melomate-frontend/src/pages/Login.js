@@ -1,6 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from "axios"
 
 const Login = () => {
+  const Login = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/login", formData);
+      console.log(response.data);
+      localStorage.setItem("access_token", response.data.access_token);
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
   return (
     <div className='form'>
       <form class="login-form" method="post">
@@ -20,4 +45,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;

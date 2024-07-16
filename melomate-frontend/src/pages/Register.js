@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import "./Register.css";
 
 const Register = () => {
+    const [formData, setFormData] = useState({
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+    });
+
+    const handleChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/register",
+          formData
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error registering user:", error);
+      }
+    };
+
   return (
     <div className="form">
       <form className="register-form" method="POST">
