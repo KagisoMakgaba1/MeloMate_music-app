@@ -9,7 +9,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/songs")
+      .get("http://127.0.0.1:5000songs")
       .then((response) => setSongs(response.data))
       .catch((error) => console.error("Error fetching songs:", error));
   }, []);
@@ -20,7 +20,7 @@ const App = () => {
 
   const getRecommendations = () => {
     axios
-      .post("http://localhost:5000/recommend", { song: selectedSong })
+      .post("http://127.0.0.1:5000/recommend", { song: selectedSong })
       .then((response) => setRecommendations(response.data))
       .catch((error) =>
         console.error("Error fetching recommendations:", error)
